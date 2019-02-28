@@ -24,9 +24,6 @@ end div_top;
 
 Library IEEE;
 use IEEE.std_logic_1164.all,IEEE.numeric_std.all;
-
-library IEEE;
-use ieee.std_logic_1164.all;
  
 entity crt_1 is
 port(CLK :in std_logic;
@@ -41,8 +38,7 @@ component divider_top
  
 component clk_div 
 port(clk :in std_logic;
-    div :out std_logic;
-    clk_out :out std_logic_vector(24 downto 0));
+    div :out std_logic);
 end component;
 
 signal div_out, Q_D,N_Q_D : std_logic;

@@ -8,8 +8,7 @@ port(CLK,CLK_EN,LD,RST,dir,en,updn : in std_logic;
 end fancy_counter;
 
 architecture fc of fancy_counter is
-signal count : std_logic_vector(3 downto 0) := (others=>'0');
-signal direction : std_logic;
+signal count,count_d : std_logic_vector(3 downto 0) := (others=>'0');
 begin
     process(CLK)
     begin
@@ -19,22 +18,22 @@ begin
                 end if;
                 if(clk_en='1') then
                     if(ld='1') then
-                        count<=val; 
+                        count<=val;
+                        count_d<=count; 
                         cnt<=count;
                     end if;   
-                    if(updn='1')then
-                        direction<=dir;    --put dir into direction register
-                        if(direction='1') then --if direction is 1 then it counts up
+                    if(updn='1')then    
+                        if(dir='1') then
                              count<=std_logic_vector(unsigned(count)+1);
                              cnt<=count;
-                             if(count=val) then --if you counted up to value reset
-                               count<=(others=>'0');
+                             if(count=val) then
+                               count<="0000";
                              end if;
-                        elsif(direction='0') then --if direction is 0 then it counts down
+                        elsif(dir='0') then
                              count<=std_logic_vector(unsigned(count)-1);
                              cnt<=count;
-                             if(count ="0000") then --if counting down reset back to original
-                                count<=val;
+                             if(count ="0000") then
+                                count<=count_d;
                                 cnt<=count;
                              end if;
                         end if;    
